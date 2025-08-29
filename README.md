@@ -83,6 +83,9 @@ bash organize_BIDS_structure.sh
 # Adjust Bo and fieldmaps names based on acquisition time
 ```
 
+Reference:  
+Gorgolewski, K.J. et al. (2016), Scientific Data.
+
 ---
 
 ### 3. Add Metadata Fields
@@ -202,6 +205,7 @@ jupyter notebook roi_lmm_analysis.ipynb
 
 ## References
 
+- Gorgolewski, K.J., Auer, T., Calhoun, V.D., Craddock, R.C., Das, S., Duff, E.P., Flandin, G., Ghosh, S.S., Glatard, T., Halchenko, Y.O., Handwerker, D.A., Hanke, M., Keator, D., Li, X., Michael, Z., Maumet, C., Nichols, B.N., Nichols, T.E., Pellman, J., Poline, J.-B., Rokem, A., Schaefer, G., Sochat, V., Triplett, W., Turner, J.A., Varoquaux, G., Poldrack, R.A. (2016). The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments. Scientific Data, 3 (160044). doi:10.1038/sdata.2016.44
 - Li X, Morgan PS, Ashburner J, Smith J, Rorden C. (2016) J Neurosci Methods. 264:47-56.
 - Esteban O et al. (2017) PLoS ONE 12(9): e0184661.
 - Esteban O et al. (2019) Nat Methods 16, 111–116.
