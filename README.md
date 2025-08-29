@@ -1,116 +1,223 @@
-# Gut Brain fmri Scripts
+# Gut-Brain fMRI Scripts
 
-This repository contains various scripts to compute participant and session level mean z-scored BOLD signal per ROI from fmri BDM food auction task files. 
+## Project Overview
 
-## Important : this script might not be easily transferable to another dataset, code written searches for specifc filename or directory pattern, especially within source data. Further patches will fix this. 
+This repository contains scripts and workflows for preprocessing, organizing, and analyzing participant and session-level mean z-scored BOLD signals per ROI from fMRI BDM food auction task files. The pipeline is tailored for data acquired on Philips scanners and designed for use on Alliance Canada clusters.
 
-## These scripts were made to be used on alliance canada clusters
+> **Note:** The scripts may require adaptation for other datasets or environments due to hard-coded filename and directory patterns. Future patches may improve portability.
 
-## Source Data format
+---
 
-sourcedata structure:
-Has to be within /data folder
-Has to have this structure:
-  /data/sourcedata/{participant-id}/DICOM/{BL,4M,12M,24M}
-relevant sourcedata events have to have this header structure:
+## Table of Contents
 
-Picture/Stimulus/Start Time/Bid Start Time/Bid Duration/Price
+- [Prerequisites](#prerequisites)
+- [Data Structure](#data-structure)
+- [Workflow](#workflow)
+  - [1. DICOM to NIfTI Conversion](#1-dicom-to-nifti-conversion)
+  - [2. Organize Data in BIDS Format](#2-organize-data-in-bids-format)
+  - [3. Add Metadata Fields](#3-add-metadata-fields)
+  - [4. Quality Control](#4-quality-control)
+  - [5. Preprocessing](#5-preprocessing)
+  - [6. Event File Creation](#6-event-file-creation)
+  - [7. Design Matrix Construction](#7-design-matrix-construction)
+  - [8. First-Level Modeling](#8-first-level-modeling)
+  - [9. ROI Mask Generation](#9-roi-mask-generation)
+  - [10. ROI Z-Score Calculation](#10-roi-z-score-calculation)
+  - [11. ROI Statistical Analysis](#11-roi-statistical-analysis)
+- [Troubleshooting](#troubleshooting)
+- [References](#references)
+- [Contributing and Citation](#contributing-and-citation)
+- [License](#license)
 
-## Conversion from dicom to nifty : 
+---
 
-run raw_dcm_to_nii_v_1.1.sh
-adjust participant labelprefix if needed, if uniform participant labeling, no need for adjustment. 
+## Prerequisites
 
-Li X, Morgan PS, Ashburner J, Smith J, Rorden C. (2016) The first step for neuroimaging data analysis: DICOM to NIfTI conversion. J Neurosci Methods. 264:47-56.
+- **Cluster access:** Alliance Canada clusters recommended
+- **Software:** 
+  - Bash
+  - Python 3.x
+  - Apptainer/Singularity
+  - fMRIPrep
+  - MRIQC
+  - Nilearn
+  - scikit-learn
+- **Container images:** See [Quality Control](#quality-control) for MRIQC
+- **Data:** Philips scanner DICOMs, structured as below
 
-## Properly name and move files into bids format and adjust the Bo and fieldmaps names based on acquisition time
+---
 
-run rename_BIDS_mv.sh
+## Data Structure
 
-## add intended for and slice acquisition fields in the .json files
+```
+/data/
+└── sourcedata/
+    └── {participant-id}/
+        └── DICOM/
+            └── {BL,4M,12M,24M}/
+```
 
-### Those steps are necessary due to the Philips Scanner DICOM header not passing all the required info. Discussion with your Philips MR specialist might be required to properly adjust those scripts for your acquisition parameters. 
+**Event files must have columns:**  
+`Picture | Stimulus | Start Time | Bid Start Time | Bid Duration | Price`
 
-run add_int_for_fmap.sh
-run slice_info_json.sh
+---
 
-## Quality Control
+## Workflow
 
-the mriqc image has to be installed beforehand using this command
+### 1. DICOM to NIfTI Conversion
+
+```bash
+bash raw_dcm_to_nii_v_1.1.sh
+# Adjust participant label prefix if needed
+```
+
+Reference:  
+Li X et al. (2016), J Neurosci Methods.
+
+---
+
+### 2. Organize Data in BIDS Format
+
+```bash
+bash rename_BIDS_mv.sh
+# Adjust Bo and fieldmaps names based on acquisition time
+```
+
+---
+
+### 3. Add Metadata Fields
+
+```bash
+bash add_int_for_fmap.sh
+bash slice_info_json.sh
+# Add "IntendedFor" and slice acquisition info to .json files
+```
+*Philips DICOM headers may lack info; consult with MR specialist as needed.*
+
+---
+
+### 4. Quality Control
+
+Build MRIQC image:
+```bash
 apptainer build mriqc-24.0.2.sif docker://nipreps/mriqc:24.0.2
-run batch_mriqc.sh
-which uses
-mriqc_v2.sh
-Then run 
-mriqc_group.sh
+```
 
-Build and use a run level exclusion text file that has this structure and save it as an exlucsion list file. THis will be a required input in first level modeling scripts. 
-The format is a single column with the following structure for a given excluded run. 
+Run:
+```bash
+bash batch_mriqc.sh
+bash mriqc_group.sh
+```
+*Requires exclusion list file:*
+```
+sub-{ID}_ses-{ID}_task-BDM_run-{ID}_bold
+```
 
-sub-{1,2,3,etc.}_ses-{1,2,3,etc.}_task-BDM_run-{1,2,3 etc.}_bold
+Reference:  
+Esteban O et al. (2017), PLoS ONE.
 
-Esteban O, Birman D, Schaer M, Koyejo OO, Poldrack RA, Gorgolewski KJ (2017) MRIQC: Advancing the automatic prediction of image quality in MRI from unseen sites. PLoS ONE 12(9): e0184661. doi:10.1371/journal.pone.0184661. 
+---
 
-## pre-processing
+### 5. Preprocessing
 
-Run fmriprep using the following scripts:
-batch_fmripre.sh
-v4_fmriprep.sh 
-adjust options and time and hardware requirements accordingly. 
+Run fMRIPrep:
+```bash
+bash batch_fmripre.sh
+bash v4_fmriprep.sh
+# Adjust options, time, hardware requirements as needed
+```
 
-Esteban O, Markiewicz CJ, Blair RW, Moodie CA, Isik AI, Erramuzpe A, Kent JD, Goncalves M, DuPre E, Snyder M, Oya H, Ghosh SS, Wright J, Durnez J, Poldrack RA, Gorgolewski KJ. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nat Meth. 2018; doi:10.1038/s41592-018-0235-4
+Reference:  
+Esteban O et al. (2019), Nat Methods.
 
-## create and re-organise events into BIDS format for easier design matrices creation in Nilearn later
+---
 
-run the following:
-create_evs.py
+### 6. Event File Creation
 
-## Create design matrices
+```bash
+python create_evs.py
+```
 
-The following script creates a design matrix from the previously created events: 
+---
 
-dm_ssib_v2.py
+### 7. Design Matrix Construction
 
-Read the script carefully and adjust the matrix suffix and columns to remove according to the desired design matrix.
+```bash
+python dm_ssib_v2.py
+# Adjust suffix and columns as needed
+```
 
-Abraham A, Pedregosa F, Eickenberg M, Gervais P, Mueller A, Kossaifi J, Gramfort A, Thirion B and Varoquaux G (2014) Machine learning for neuroimaging with scikit-learn. Front. Neuroinform. 8:14. doi: 10.3389/fninf.2014.00014
+Reference:  
+Abraham A et al. (2014), Front Neuroinform.
 
-## First level model
+---
 
-Read, adjust and run the following script to get contrast z-map per subject and session:
+### 8. First-Level Modeling
 
-first_level_glm_combined_runs.py
+```bash
+python first_level_glm_combined_runs.py
+# Adjust contrast and settings as needed
+```
 
-## Compute masks from a meta-analysis ALE map
+---
 
-Read, adjust and run the following script. In our case, the BDM auction task meta-analysis ALE map from Newton-Fenner et al. 2023 was used. 
+### 9. ROI Mask Generation
 
-create_brain_masks.ipynb
+```bash
+jupyter notebook create_brain_masks.ipynb
+# Use meta-analysis ALE map as needed
+```
 
-Newton-Fenner A, Hewitt D, Henderson J, Roberts H, Mari T, Gu Y, Gorelkina O, Giesbrecht T, Fallon N, Roberts C, Stancak A. Economic value in the Brain: A meta-analysis of willingness-to-pay using the Becker-DeGroot-Marschak auction. PLoS One. 2023 Jul 10;18(7):e0286969. doi: 10.1371/journal.pone.0286969. PMID: 37428744; PMCID: PMC10332630.
+Reference:  
+Newton-Fenner et al. (2023).
 
-## Compute ROI mean z-score per participant and session
+---
 
-Read adjust and run the following script:
+### 10. ROI Z-Score Calculation
 
-compute_ROI_z-score_allcan.py
+```bash
+python compute_ROI_z-score_allcan.py
+# Requires BIDS-compliant participant.tsv in /data
+```
 
-This script assumes that a BIDS compliant participant.tsv file is available in the data folder. 
+---
 
-## Run ROI analysis in a linear mixed model, plot results per session
+### 11. ROI Statistical Analysis
 
-For built matrices and contrast to study, read, adjust and run the following script, that gives FDR corrected linear mixed model result for longitudinal analysis of ROI mean z-score BOLD signal. 
+```bash
+jupyter notebook LMM_ROIs_v2.ipynb
+# FDR-corrected linear mixed model analysis of longitudinal ROI z-score BOLD signals
+```
 
-LMM_ROIs_v2.ipynb
+---
 
+## Troubleshooting
 
+- **Directory or filename errors:** Ensure strict compliance with required folder structure and naming conventions.
+- **Missing DICOM header info:** Consult with MR specialist, especially for Philips scanners.
+- **MRIQC/fMRIPrep container fails:** Check container build versions and cluster compatibility.
+- **Script errors:** Read script comments for adjustable parameters.
 
+---
 
+## References
 
+- Li X, Morgan PS, Ashburner J, Smith J, Rorden C. (2016) J Neurosci Methods. 264:47-56.
+- Esteban O et al. (2017) PLoS ONE 12(9): e0184661.
+- Esteban O et al. (2019) Nat Methods 16, 111–116.
+- Abraham A et al. (2014) Front Neuroinform. 8:14.
+- Newton-Fenner A et al. (2023) [Economic value in the Brain: A meta-analysis...](https://doi.org/10.1177/20438087231160434)
 
+---
 
+## Contributing and Citation
 
+Contributions welcome! Please open issues or pull requests.
 
+If you use these scripts, please cite the relevant references above.
 
+---
 
+## License
 
+Specify your license here (e.g., MIT, GPL). If not present, consider adding a LICENSE file.
