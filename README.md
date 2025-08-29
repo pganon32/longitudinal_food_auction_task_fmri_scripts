@@ -1,6 +1,30 @@
-# Gut Brain fmri Scripts
+# Gut Brain fMRI Scripts
 
-This repository contains various scripts to compute participant and session level mean z-scored BOLD signal per ROI from fmri BDM food auction task files. 
+This repository contains various scripts to compute participant and session level mean z-scored BOLD signal per ROI from fMRI BDM (Becker-DeGroot-Marschak) food auction task files.
+
+## Overview
+
+This pipeline processes fMRI data from food auction tasks, providing a complete workflow from DICOM conversion to statistical analysis. The scripts are designed for analyzing brain responses during economic decision-making tasks involving food stimuli.
+
+## Prerequisites
+
+- Access to a computing cluster (originally developed for Alliance Canada clusters)
+- Required software:
+  - dcm2niix for DICOM conversion
+  - fMRIPrep for preprocessing
+  - MRIQC for quality control
+  - Python with nilearn, scikit-learn, and other neuroimaging libraries
+  - Apptainer/Singularity for containerized tools
+
+## Quick Start
+
+1. Organize your source data according to the specified structure
+2. Run DICOM to NIfTI conversion
+3. Convert to BIDS format
+4. Perform quality control
+5. Run preprocessing with fMRIPrep
+6. Execute first-level analysis
+7. Perform ROI analysis 
 
 ## Important : this script might not be easily transferable to another dataset, code written searches for specifc filename or directory pattern, especially within source data. Further patches will fix this. 
 
@@ -102,6 +126,47 @@ This script assumes that a BIDS compliant participant.tsv file is available in t
 For built matrices and contrast to study, read, adjust and run the following script, that gives FDR corrected linear mixed model result for longitudinal analysis of ROI mean z-score BOLD signal. 
 
 LMM_ROIs_v2.ipynb
+
+
+## Installation
+
+1. Clone this repository:
+```bash
+git clone https://github.com/pganon32/gut_brain_fmri_scripts.git
+cd gut_brain_fmri_scripts
+```
+
+2. Set up your computing environment according to your cluster's specifications
+
+3. Install required neuroimaging software and containers as described in each section
+
+## Usage
+
+Follow the sequential steps outlined in the sections above. Each script should be reviewed and adjusted for your specific dataset and computing environment before running.
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Citation
+
+If you use these scripts in your research, please consider citing the relevant publications mentioned throughout this documentation, particularly:
+
+- For the meta-analysis approach: Newton-Fenner A, et al. (2023) Economic value in the Brain: A meta-analysis of willingness-to-pay using the Becker-DeGroot-Marschak auction.
+- For preprocessing: Esteban O, et al. (2018) fMRIPrep: a robust preprocessing pipeline for functional MRI.
+- For quality control: Esteban O, et al. (2017) MRIQC: Advancing the automatic prediction of image quality in MRI.
+
+## Support
+
+For questions or issues, please open a GitHub issue or refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+## Disclaimer
+
+**Important**: These scripts were developed for a specific dataset and may require modification for use with other datasets. The code searches for specific filename and directory patterns. Please review and adapt the scripts for your data structure before use.
 
 
 
