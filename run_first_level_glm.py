@@ -15,13 +15,13 @@ from nilearn.glm.contrasts import compute_fixed_effects
 
 # Set Path
 
-project_dir = "/home/pagag24/projects/def-amichaud/share/GutBrain"
+project_dir = "/home/username/projects/def-account/share/projectname"
 data_dir = f"{project_dir}/data2"
 derivatives_dir = f"{project_dir}/derivatives2/fmriprep"
 results_dir = f"{project_dir}/BIDS_results2"
 tsnr_fd_outliers_path = f"{derivatives_dir}/tsnr_fd_outliers.txt"
 
-# project_dir = "/home/gagpat01/Documents/GutBrain"
+# project_dir = "/home/username/Documents/projectname"
 # data_dir = f"{project_dir}/data5"
 # derivatives_dir = f"{project_dir}/derivatives4/fmriprep"
 # results_dir = f"{project_dir}/BIDS_results"

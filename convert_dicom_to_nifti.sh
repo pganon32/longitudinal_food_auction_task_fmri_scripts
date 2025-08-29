@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=def-amichaud
+#SBATCH --account=def-account
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -16,7 +16,7 @@ mkdir -p "$scratch_dir"
 #SBATCH --output="$scratch_dir/%x_%j.out"
 #SBATCH --error="$scratch_dir/%x_%j.err"
 
-# Array for all RGCs : 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,24,25
+# Array for all subject IDs : 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,24,25
 #This script were writting to use on Alliance Canada.
 #This script convert all DICOM files from data/sourcedata/* to nifti or json with dcm2niix, reorient nifti in RPI and rename files to fit with BIDS format.
 
@@ -34,8 +34,8 @@ fi
 name="$SUBJECT_NAME"
 
 
-input_dir=~/projects/def-amichaud/share/GutBrain/data
-output_dir=~/projects/def-amichaud/share/GutBrain/data2
+input_dir=~/projects/def-account/share/projectname/data
+output_dir=~/projects/def-account/share/projectname/data2
 
 if [ ! -d "$input_dir/sourcedata/$name/DICOM" ]; then
   echo "$name"
@@ -44,7 +44,7 @@ if [ ! -d "$input_dir/sourcedata/$name/DICOM" ]; then
 fi
 
 for file in $input_dir/sourcedata/$name/DICOM/*/; do
-#for file in $dir/sourcedata/RND005/DICOM/*/; do
+#for file in $dir/sourcedata/SUBJ005/DICOM/*/; do
 
   #name=$(echo $file| cut  -d'/' -f 10) #find the subject id
   ses=$(echo $file| cut  -d'/' -f 12) #find the session number
@@ -138,37 +138,37 @@ done
 
 
 
-  #temp/MRIConvert-2.1.0/usr/bin/mcverter  \-o projects/def-amichaud/jdaoust/neurocognition/data/sub-${name}/ses-${session} \-f fsl -n projects/def-amichaud/jdaoust/neurocognition/sourcedata/${name}/DICOM/*/*
+  #temp/MRIConvert-2.1.0/usr/bin/mcverter  \-o projects/def-account/jdaoust/neurocognition/data/sub-${name}/ses-${session} \-f fsl -n projects/def-account/jdaoust/neurocognition/sourcedata/${name}/DICOM/*/*
 
-  #dcm2bids -d projects/def-amichaud/jdaoust/neurocognition/sourcedata/${name}/DICOM/*/* -c -p sub-${name} -s ses-${session} -o projects/def-amichaud/jdaoust/neurocognition/data/
+  #dcm2bids -d projects/def-account/jdaoust/neurocognition/sourcedata/${name}/DICOM/*/* -c -p sub-${name} -s ses-${session} -o projects/def-account/jdaoust/neurocognition/data/
 
-  #dcm2bids -d projects/def-amichaud/jdaoust/neurocognition/data/sourcedata/NCG017/DICOM/BL/* -p NCG017urocognition/scripts/config.json -o projects/def-amichaud/jdaoust/neurocognition/data/
+  #dcm2bids -d projects/def-account/jdaoust/neurocognition/data/sourcedata/NCG017/DICOM/BL/* -p NCG017urocognition/scripts/config.json -o projects/def-account/jdaoust/neurocognition/data/
 
 #fslreorient2std sub-NEUROC-NCG017-KP-BL_20210715103705_WIP_T1W_3D_TFE_201_1.3.46.670589.11.71300.5.0.2120.2021071510390834015.nii sub-001_T1w_reoriented
 
-  #dcm2niix -o ~/projects/def-amichaud/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/ -r y -f %i_%s_%t_%p ~/projects/def-amichaud/jdaoust/neurocognition/data/data_raw/${name}/DICOM/*/*
+  #dcm2niix -o ~/projects/def-account/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/ -r y -f %i_%s_%t_%p ~/projects/def-account/jdaoust/neurocognition/data/data_raw/${name}/DICOM/*/*
 
   #T1w
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*T1W*_orient.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/anat/sub-${name::6}_ses-${session}_T1w.nii.gz
-  #mv ~/projects/def-amichaud/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/*T1W*.nii ~/projects/def-amichaud/jdaoust/neurocognition/data/data_BIDS/sub-${name::6}/ses-${session}/anat/sub-${name::6}_ses-${session}_T1w.nii
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*T1W*_orient.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/anat/sub-${name::6}_ses-${session}_T1w.nii.gz
+  #mv ~/projects/def-account/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/*T1W*.nii ~/projects/def-account/jdaoust/neurocognition/data/data_BIDS/sub-${name::6}/ses-${session}/anat/sub-${name::6}_ses-${session}_T1w.nii
   #gzip ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/anat/sub-${name::6}_ses-${session}_T1w.nii
-  #mv ~/projects/def-amichaud/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/*T1W*.json ~/projects/def-amichaud/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/anat/sub-${name}_ses-${session}_T1w.json
+  #mv ~/projects/def-account/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/*T1W*.json ~/projects/def-account/jdaoust/neurocognition/data/data_BIDS/sub-${name}/ses-${session}/anat/sub-${name}_ses-${session}_T1w.json
 
   #BDM-run1
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD1_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.nii.gz
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD1_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.nii
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD1_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.nii.gz
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD1_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.nii
   #gzip ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.nii
   #mv ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/*FOOD1*.json ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-1_bold.json
 
   #BDM-run2
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD2_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.nii.gz
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD2_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.nii
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD2_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.nii.gz
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD2_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.nii
   #gzip ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.nii
   #mv ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/*FOOD2*.json ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-2_bold.json
 
   #BDM-run3
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD3_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.nii.gz
-  #scp ~/projects/def-amichaud/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD3_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.nii
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD3_orient_cut.nii.gz ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.nii.gz
+  #scp ~/projects/def-account/share/dagher6_back_up/raw/${name}/DICOM/mcverter/*FOOD3_orient_cut.nii ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.nii
   #gzip ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.nii
   #mv ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/*FOOD3*.json ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-3_bold.json
 
@@ -180,7 +180,7 @@ done
   #rm ~/JDaoust_project/data/BIDS/sub-${name::6}/ses-${session}/gut*
 
   #for run in 1 2 3; do
-    # paste ~/projects/def-amichaud/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_onset*.txt ~/projects/def-amichaud/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_duration*.txt ~/projects/def-amichaud/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_bids*.txt > ~/JDaoust_project/data/raw_BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-${run}_events.tsv
+    # paste ~/projects/def-account/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_onset*.txt ~/projects/def-account/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_duration*.txt ~/projects/def-account/share/dagher6_back_up/EVs/bariatric_${name::6}_session${session}_run${run}_img_bids*.txt > ~/JDaoust_project/data/raw_BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-${run}_events.tsv
 
   #sed -i '1i \onset \tduration \tbids' ~/JDaoust_project/data/raw_BIDS/sub-${name::6}/ses-${session}/func/sub-${name::6}_ses-${session}_task-BDM_run-${run}_events.tsv
 

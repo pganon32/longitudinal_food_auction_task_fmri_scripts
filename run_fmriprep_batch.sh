@@ -1,11 +1,11 @@
 #!/bin/bash
-# filepath: /home/pagag24/projects/def-amichaud/share/GutBrain/scripts/run_fmriprep_batch.sh
+# filepath: /home/username/projects/def-account/share/projectname/scripts/run_fmriprep_batch.sh
 
-# Directory containing subject folders (e.g., sub-RGC901, sub-RGC902, etc.)
-input_dir=${HOME}/projects/def-amichaud/share/GutBrain/data2
+# Directory containing subject folders (e.g., sub-001, sub-002, etc.)
+input_dir=${HOME}/projects/def-account/share/projectname/data2
 
 # Path to the fmriprep subject-level SLURM script
-fmriprep_script=${HOME}/projects/def-amichaud/share/GutBrain/scripts/scripts_fmriprep/fmriprep_advanced.sh
+fmriprep_script=${HOME}/projects/def-account/share/projectname/scripts/scripts_fmriprep/fmriprep_advanced.sh
 
 # Initialize counter for limiting to 4 participants (uncomment the next two lines to enable)
 count=0

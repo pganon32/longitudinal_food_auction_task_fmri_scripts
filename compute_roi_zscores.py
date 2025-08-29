@@ -48,7 +48,7 @@ import ssl
 # In[59]:
 
 
-project_dir = "/home/pagag24/projects/def-amichaud/share/GutBrain"
+project_dir = "/home/username/projects/def-account/share/projectname"
 data_dir = f"{project_dir}/data2"
 derivatives_dir = f"{project_dir}/derivatives2/fmriprep"
 results_dir = f"{project_dir}/BIDS_results2"

@@ -1,4 +1,4 @@
-# Gut-Brain fMRI Scripts
+# fMRI Analysis Scripts
 
 ## Project Overview
 

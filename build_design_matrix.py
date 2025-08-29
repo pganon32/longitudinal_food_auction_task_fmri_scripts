@@ -31,9 +31,9 @@ print('done loading modules')
 
 
 # Comment below for use in batch processing
-#subject_id = f"RND050"
+#subject_id = f"050"
 
-project_dir = "/home/pagag24/projects/def-amichaud/share/GutBrain"
+project_dir = "/home/username/projects/def-account/share/projectname"
 data_dir = f"{project_dir}/data2"
 derivatives_dir = f"{project_dir}/derivatives2/fmriprep"
 results_dir = f"{project_dir}/BIDS_results2"
@@ -248,7 +248,7 @@ participants = [
     d for d in os.listdir(derivatives_dir)
     if os.path.isdir(os.path.join(derivatives_dir, d)) and d.startswith("sub-")
 ]
-# participants = ["sub-RND050"] # For testing, you can specify a single subject
+# participants = ["sub-050"] # For testing, you can specify a single subject
 
 for participant in participants:
     subject_id = participant.split("-")[1]
