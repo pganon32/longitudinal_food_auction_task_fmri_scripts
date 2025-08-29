@@ -41,6 +41,13 @@ apptainer build mriqc-24.0.2.sif docker://nipreps/mriqc:24.0.2
 run batch_mriqc.sh
 which uses
 mriqc_v2.sh
+Then run 
+mriqc_group.sh
+
+Build and use a run level exclusion text file that has this structure and save it as an exlucsion list file. THis will be a required input in first level modeling scripts. 
+The format is a single column with the following structure for a given excluded run. 
+
+sub-{1,2,3,etc.}_ses-{1,2,3,etc.}_task-BDM_run-{1,2,3 etc.}_bold
 
 Esteban O, Birman D, Schaer M, Koyejo OO, Poldrack RA, Gorgolewski KJ (2017) MRIQC: Advancing the automatic prediction of image quality in MRI from unseen sites. PLoS ONE 12(9): e0184661. doi:10.1371/journal.pone.0184661. 
 
@@ -76,7 +83,11 @@ first_level_glm_combined_runs.py
 
 ## Compute masks from a meta-analysis ALE map
 
+Read, adjust and run the following script. In our case, the BDM auction task meta-analysis ALE map from Newton-Fenner et al. 2023 was used. 
 
+create_brain_masks.ipynb
+
+Newton-Fenner A, Hewitt D, Henderson J, Roberts H, Mari T, Gu Y, Gorelkina O, Giesbrecht T, Fallon N, Roberts C, Stancak A. Economic value in the Brain: A meta-analysis of willingness-to-pay using the Becker-DeGroot-Marschak auction. PLoS One. 2023 Jul 10;18(7):e0286969. doi: 10.1371/journal.pone.0286969. PMID: 37428744; PMCID: PMC10332630.
 
 ## Compute ROI mean z-score per participant and session
 
@@ -84,9 +95,15 @@ Read adjust and run the following script:
 
 compute_ROI_z-score_allcan.py
 
-This script assumes that a BIDS compliant participant.tsv file is available in the data folder.
+This script assumes that a BIDS compliant participant.tsv file is available in the data folder. 
 
-## 
+## Run ROI analysis in a linear mixed model, plot results per session
+
+For built matrices and contrast to study, read, adjust and run the following script, that gives FDR corrected linear mixed model result for longitudinal analysis of ROI mean z-score BOLD signal. 
+
+LMM_ROIs_v2.ipynb
+
+
 
 
 
