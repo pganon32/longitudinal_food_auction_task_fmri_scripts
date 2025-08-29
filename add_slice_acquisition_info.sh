@@ -3,7 +3,7 @@
 # Define the directory containing the BIDS dataset 
 bids_dir="$HOME/projects/def-account/share/projectname/data2"
 
-# Define the SliceTiming field with 59.78260 ms increments for exactly 45 points
+# Define the SliceTiming field with 59.78260 ms increments for exactly 45 points adjust according to T_R and acquisition timing
 slice_timing=$(awk 'BEGIN { for (i = 0; i < 45; i++) printf "%.8f,", i * 0.05978260; printf "\n" }' | sed 's/,$//')
 
 # Traverse the BIDS directory
