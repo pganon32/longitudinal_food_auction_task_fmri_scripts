@@ -10,7 +10,7 @@
 echo "Loading the necessary module..."
 module load apptainer/1.3.5
 
-#For testing, uncomment the line below and put in your test participant, if not use batch_mriqc.sh
+#For testing, uncomment the line below and put in your test participant, if not use run_mriqc_batch.sh
 #export SUBJECT_NAME='sub-RND050'
 
 # Ensure SUBJECT_NAME is provided  

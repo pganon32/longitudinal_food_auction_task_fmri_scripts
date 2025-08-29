@@ -67,7 +67,7 @@ This repository contains scripts and workflows for preprocessing, organizing, an
 ### 1. DICOM to NIfTI Conversion
 
 ```bash
-bash raw_dcm_to_nii_v_1.1.sh
+bash convert_dicom_to_nifti.sh
 # Adjust participant label prefix if needed
 ```
 
@@ -79,7 +79,7 @@ Li X et al. (2016), J Neurosci Methods.
 ### 2. Organize Data in BIDS Format
 
 ```bash
-bash rename_BIDS_mv.sh
+bash organize_BIDS_structure.sh
 # Adjust Bo and fieldmaps names based on acquisition time
 ```
 
@@ -88,8 +88,8 @@ bash rename_BIDS_mv.sh
 ### 3. Add Metadata Fields
 
 ```bash
-bash add_int_for_fmap.sh
-bash slice_info_json.sh
+bash add_intended_for_fmap.sh
+bash add_slice_acquisition_info.sh
 # Add "IntendedFor" and slice acquisition info to .json files
 ```
 *Philips DICOM headers may lack info; consult with MR specialist as needed.*
@@ -105,8 +105,8 @@ apptainer build mriqc-24.0.2.sif docker://nipreps/mriqc:24.0.2
 
 Run:
 ```bash
-bash batch_mriqc.sh
-bash mriqc_group.sh
+bash run_mriqc_batch.sh
+bash mriqc_group_summary.sh
 ```
 *Requires exclusion list file:*
 ```
@@ -122,8 +122,8 @@ Esteban O et al. (2017), PLoS ONE.
 
 Run fMRIPrep:
 ```bash
-bash batch_fmripre.sh
-bash v4_fmriprep.sh
+bash run_fmriprep_batch.sh
+bash fmriprep_advanced.sh
 # Adjust options, time, hardware requirements as needed
 ```
 
@@ -135,7 +135,7 @@ Esteban O et al. (2019), Nat Methods.
 ### 6. Event File Creation
 
 ```bash
-python create_evs.py
+python events_to_bids.py
 ```
 
 ---
@@ -143,7 +143,7 @@ python create_evs.py
 ### 7. Design Matrix Construction
 
 ```bash
-python dm_ssib_v2.py
+python build_design_matrix.py
 # Adjust suffix and columns as needed
 ```
 
@@ -155,7 +155,7 @@ Abraham A et al. (2014), Front Neuroinform.
 ### 8. First-Level Modeling
 
 ```bash
-python first_level_glm_combined_runs.py
+python run_first_level_glm.py
 # Adjust contrast and settings as needed
 ```
 
@@ -164,7 +164,7 @@ python first_level_glm_combined_runs.py
 ### 9. ROI Mask Generation
 
 ```bash
-jupyter notebook create_brain_masks.ipynb
+jupyter notebook make_roi_masks.ipynb
 # Use meta-analysis ALE map as needed
 ```
 
@@ -176,7 +176,7 @@ Newton-Fenner et al. (2023).
 ### 10. ROI Z-Score Calculation
 
 ```bash
-python compute_ROI_z-score_allcan.py
+python compute_roi_zscores.py
 # Requires BIDS-compliant participant.tsv in /data
 ```
 
@@ -185,7 +185,7 @@ python compute_ROI_z-score_allcan.py
 ### 11. ROI Statistical Analysis
 
 ```bash
-jupyter notebook LMM_ROIs_v2.ipynb
+jupyter notebook roi_lmm_analysis.ipynb
 # FDR-corrected linear mixed model analysis of longitudinal ROI z-score BOLD signals
 ```
 
