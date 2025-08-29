@@ -4,11 +4,11 @@
 #SBATCH --ntasks-per-node=16
 #SBATCH --cpus-per-task=1
 #SBATCH --job-name=fmriprep
-#SBATCH --account=def-amichaud
+#SBATCH --account=def-account
 #SBATCH --mem=32000
 
 # Optionally, uncomment and set for testing:
-export SUBJECT_NAME=RND067
+export SUBJECT_NAME=067
 
 # Check if SUBJECT_NAME is provided
 if [ -z "$SUBJECT_NAME" ]; then
@@ -32,14 +32,14 @@ omp_nthreads=8  # Maximum threads per process
 mem_mb=$((mem*1000 - 500)) # Slight buffer
 
 # File pathing
-input_dir=${HOME}/projects/def-amichaud/share/GutBrain/data2
-output_dir=${HOME}/projects/def-amichaud/share/GutBrain/derivatives3/fmriprep
+input_dir=${HOME}/projects/def-account/share/projectname/data2
+output_dir=${HOME}/projects/def-account/share/projectname/derivatives3/fmriprep
 work_dir=${SLURM_TMPDIR}
-license_dir=${HOME}/projects/def-amichaud/share/GutBrain/fs_license
+license_dir=${HOME}/projects/def-account/share/projectname/fs_license
 
 # Export paths - use Beluga-style paths
 export APPTAINERENV_TEMPLATEFLOW_HOME=/tmp/templateflow
-export APPTAINER_BIND=${input_dir}:/data,${output_dir}:/out,${license_dir}:/license,${work_dir}:/work,${HOME}/projects/def-amichaud/share/templateflow:/tmp/templateflow
+export APPTAINER_BIND=${input_dir}:/data,${output_dir}:/out,${license_dir}:/license,${work_dir}:/work,${HOME}/projects/def-account/share/templateflow:/tmp/templateflow
 
 # Run fmriprep
 fmriprep /data /out participant \

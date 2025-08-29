@@ -3,11 +3,11 @@
 # This script adds the "IntendedFor" field to JSON files for susceptibility distortion correction.
 # It processes multiple sessions (e.g., ses-1, ses-x, ses-2) in a BIDS dataset.
 
-bids="$HOME/projects/def-amichaud/share/GutBrain/data2"  # Set the base BIDS directory here (e.g., "/path/to/bids")
+bids="$HOME/projects/def-account/share/projectname/data2"  # Set the base BIDS directory here (e.g., "/path/to/bids")
 
 echo "Starting to process BIDS dataset in: $bids"
 
-# Loop through all subjects with sub* or one subject (example sub-RGC901)
+# Loop through all subjects with sub* or one subject (example sub-001)
 for sub in "$bids"/sub*; do
     [ -d "$sub" ] || continue  # Skip if not a directory
     sub_name=$(basename "$sub")

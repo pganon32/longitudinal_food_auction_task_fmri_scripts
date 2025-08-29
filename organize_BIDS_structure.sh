@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Set the path to the data directory
-dir=$HOME/projects/def-amichaud/share/GutBrain/data2
+dir=$HOME/projects/def-account/share/projectname/data2
 
 # Dynamically generate the list of subject IDs from the sourcedata directory
 
-subject_ids=($(find "$HOME/projects/def-amichaud/share/GutBrain/data/sourcedata/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort -V))
+subject_ids=($(find "$HOME/projects/def-account/share/projectname/data/sourcedata/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort -V))
 
-#subject_ids=("RND002")
+#subject_ids=("002")
 
 # Function to extract AcquisitionTime from JSON file
 get_acquisition_time() {

@@ -11,7 +11,7 @@ echo "Loading the necessary module..."
 module load apptainer/1.3.5
 
 #For testing, uncomment the line below and put in your test participant, if not use run_mriqc_batch.sh
-#export SUBJECT_NAME='sub-RND050'
+#export SUBJECT_NAME='sub-050'
 
 # Ensure SUBJECT_NAME is provided  
 if [ -z "$SUBJECT_NAME" ]; then
@@ -21,9 +21,9 @@ fi
 
 
 # Define paths
-input_dir=/home/pagag24/projects/def-amichaud/share/GutBrain/data2
-output_dir=/home/pagag24/projects/def-amichaud/share/GutBrain/derivatives/mriqc
-CONTAINER_IMAGE=/home/pagag24/myimages/mriqc-24.0.2.sif
+input_dir=/home/username/projects/def-account/share/projectname/data2
+output_dir=/home/username/projects/def-account/share/projectname/derivatives/mriqc
+CONTAINER_IMAGE=/home/username/myimages/mriqc-24.0.2.sif
 
 # Echo all of the directories
 echo "Input directory: $input_dir"
@@ -33,11 +33,11 @@ echo "Container image: $CONTAINER_IMAGE"
 mkdir $SLURM_TMPDIR/HZ_tmp
 apptainer run -C -W $SLURM_TMPDIR \
      --writable-tmpfs \
-     -B /home/pagag24/projects/def-amichaud/share/GutBrain:/GutBrain \
+     -B /home/username/projects/def-account/share/projectname:/projectname \
      -B $SLURM_TMPDIR \
      -B $SLURM_TMPDIR/HZ_tmp:/tmp \
      $CONTAINER_IMAGE \
-     /GutBrain/data2 /GutBrain/derivatives/mriqc  participant \
+     /projectname/data2 /projectname/derivatives/mriqc  participant \
      --participant-label $SUBJECT_NAME \
      --work-dir $SLURM_TMPDIR/HZ_tmp \
      --n_procs 4  \

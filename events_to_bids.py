@@ -40,15 +40,15 @@ def bid_extract(directory_file, filename, verbose=False):
 	    id_participant = int(id_participant)
 
 	    if id_participant <= 9:
-	        id_participant = 'RND00' + str(id_participant)
+	        id_participant = 'SUBJ00' + str(id_participant)
 	    elif 10 <= id_participant <= 95:
-	        id_participant = 'RND0' + str(id_participant)
+	        id_participant = 'SUBJ0' + str(id_participant)
 	    elif 96 <= id_participant <= 99:
 	        id_participant = 'RCX0' + str(id_participant)
 	    elif 100 <= id_participant <= 899:
 	        id_participant = 'RCX' + str(id_participant)
 	    elif id_participant >= 900:
-	        id_participant = 'RGC' + str(id_participant)
+	        id_participant = 'SUBJ' + str(id_participant)
 
 	    if verbose:
 	        print(f"Participant ID determined: {id_participant}")
@@ -56,11 +56,11 @@ def bid_extract(directory_file, filename, verbose=False):
 	    session = filename[0:1]
 	    if session == '1':
 	        session = 1
-	    elif session == '2' and id_participant.startswith('RGC'):
+	    elif session == '2' and id_participant.startswith('SUBJ'):
 	        session = 'x'
 	    elif session == '2':
 	        session = 2
-	    elif session == '3' and id_participant.startswith('RGC'):
+	    elif session == '3' and id_participant.startswith('SUBJ'):
 	        session = 2
 	    elif session == '3':
 	        session = 3
@@ -229,7 +229,7 @@ def bid_extract(directory_file, filename, verbose=False):
 	    print(event)
 
 	    # Save the event file
-	    output_dir = os.path.expandvars(f'$HOME/projects/def-amichaud/share/GutBrain/data2/sub-{id_participant}/ses-{session}/func')
+	    output_dir = os.path.expandvars(f'$HOME/projects/def-account/share/projectname/data2/sub-{id_participant}/ses-{session}/func')
 	    os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 	    output_file = os.path.join(output_dir, f'sub-{id_participant}_ses-{session}_task-BDM_run-{run}_events.tsv')
 	    event.to_csv(output_file, sep='\t', index=False)
@@ -243,7 +243,7 @@ def bid_extract(directory_file, filename, verbose=False):
         print(f"[EXCEPTION] Error processing file {filename}: {e}")
         return pd.DataFrame()
 
-directory = os.path.expandvars('$HOME/projects/def-amichaud/share/GutBrain/data/sourcedata')
+directory = os.path.expandvars('$HOME/projects/def-account/share/projectname/data/sourcedata')
 print(directory)
 
 # Main script

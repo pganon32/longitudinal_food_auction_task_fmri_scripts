@@ -1,8 +1,8 @@
 #!/bin/bash
-# filepath: /home/gagpat01/Documents/GutBrain/scripts/submit_jobs.sh
+# filepath: /home/username/Documents/projectname/scripts/submit_jobs.sh
 
 # Define the input directory containing sourcedata
-input_dir=~/projects/def-amichaud/share/GutBrain/data2/
+input_dir=~/projects/def-account/share/projectname/data2/
 
 # Loop through each directory in sourcedata
 for subject_dir in "$input_dir"/*; do
@@ -12,6 +12,6 @@ for subject_dir in "$input_dir"/*; do
     
     # Submit the sbatch job for the subject
     echo "Submitting job for subject: $subject_name"
-    sbatch --export=SUBJECT_NAME="$subject_name" $HOME/projects/def-amichaud/share/GutBrain/scripts/scripts_mriqc/mriqc_single_run.sh
+    sbatch --export=SUBJECT_NAME="$subject_name" $HOME/projects/def-account/share/projectname/scripts/scripts_mriqc/mriqc_single_run.sh
   fi
 done
