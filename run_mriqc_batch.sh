@@ -12,6 +12,6 @@ for subject_dir in "$input_dir"/*; do
     
     # Submit the sbatch job for the subject
     echo "Submitting job for subject: $subject_name"
-    sbatch --export=SUBJECT_NAME="$subject_name" $HOME/projects/def-amichaud/share/GutBrain/scripts/scripts_mriqc/mriqc_v2.sh
+    sbatch --export=SUBJECT_NAME="$subject_name" $HOME/projects/def-amichaud/share/GutBrain/scripts/scripts_mriqc/mriqc_single_run.sh
   fi
 done
