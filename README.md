@@ -222,6 +222,4 @@ If you use these scripts, please cite the relevant references above.
 
 ---
 
-## License
 
-Specify your license here (e.g., MIT, GPL). If not present, consider adding a LICENSE file.
