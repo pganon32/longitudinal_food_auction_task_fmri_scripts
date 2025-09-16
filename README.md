@@ -111,15 +111,7 @@ Run:
 bash run_mriqc_batch.sh
 bash mriqc_group_summary.sh
 ```
-*Requires exclusion list file:*
-```
-sub-{ID}_ses-{ID}_task-BDM_run-{ID}_bold
-```
 
-Reference:  
-Esteban O et al. (2017), PLoS ONE.
-
----
 
 ### 5. Preprocessing
 
@@ -129,6 +121,16 @@ bash run_fmriprep_batch.sh
 bash fmriprep_advanced.sh
 # Adjust options, time, hardware requirements as needed
 ```
+
+*Requires exclusion list file from QC process:*
+```
+sub-{ID}_ses-{ID}_task-BDM_run-{ID}_bold
+```
+
+Reference:  
+Esteban O et al. (2017), PLoS ONE.
+
+---
 
 Reference:  
 Esteban O et al. (2019), Nat Methods.
