@@ -27,7 +27,6 @@ This repository contains scripts and workflows for preprocessing, organizing, an
 - [Troubleshooting](#troubleshooting)
 - [References](#references)
 - [Contributing and Citation](#contributing-and-citation)
-- [License](#license)
 
 ---
 
